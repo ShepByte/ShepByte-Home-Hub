@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ShepByte Home Hub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main id="app">
+
+        <section id="home-screen">
+
+            <div id="connections">
+                <div class="connection connection-devices">
+                    <span class="data-pulse"></span>
+                </div>
+
+                <div class="connection connection-system">
+                    <span class="data-pulse"></span>
+                </div>
+
+                <div class="connection connection-activity">
+                    <span class="data-pulse"></span>
+                </div>
+            </div>
+
+            <div id="hub-node">
+
+                <h1>HOME HUB</h1>
+
+                <div class="hub-info">
+                    <p id="date">--</p>
+                    <p id="time">--:--</p>
+                </div>
+
+                <div class="hub-status">
+
+                    <div class="status-item">
+                        <span class="status-label">
+                            Devices Connected
+                        </span>
+
+                        <span
+                            class="status-value"
+                            id="device-count"
+                        >
+                            0 / 0
+                        </span>
+                    </div>
+
+                    <div class="status-item">
+                        <span class="status-label">
+                            Alerts
+                        </span>
+
+                        <span
+                            class="status-value"
+                            id="alert-count"
+                        >
+                            0 Active
+                        </span>
+                    </div>
+
+                    <div class="status-item">
+                        <span class="status-label">
+                            Version
+                        </span>
+
+                        <span class="status-value">
+                            v0.1
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <nav id="main-nodes">
+
+                <button
+                    class="nav-node"
+                    data-node="devices"
+                >
+                    Devices
+                </button>
+
+                <button
+                    class="nav-node"
+                    data-node="system"
+                >
+                    System
+                </button>
+
+                <button
+                    class="nav-node"
+                    data-node="activity"
+                >
+                    Activity
+                </button>
+
+            </nav>
+
+        </section>
+
+        <section id="devices-screen" class="screen hidden">
+
+                <button id="back-home" class="back-button">
+                    ← Home
+                </button>
+
+            <div class="section-header">
+                <p class="section-label">HOME HUB</p>
+
+                <h2>Devices</h2>
+
+                <p class="section-description">
+                    Connected ShepByte devices will appear here.
+                </p>
+            </div>
+
+            <div class="device-grid">
+
+                <div class="device-card">
+                    <span class="device-status online"></span>
+
+                    <h3>Example Device</h3>
+
+                    <p>No devices connected</p>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>

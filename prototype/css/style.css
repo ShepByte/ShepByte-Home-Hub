@@ -1,0 +1,530 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #07090d;
+    color: #f4f4f4;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#home-screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================
+   HOME HUB
+========================= */
+
+#hub-node {
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(255, 255, 255, 0.06),
+            rgba(255, 255, 255, 0.015) 55%,
+            rgba(0, 0, 0, 0.35)
+        );
+
+    box-shadow:
+        0 0 30px rgba(255, 255, 255, 0.03),
+        inset 0 0 25px rgba(255, 255, 255, 0.02);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+    z-index: 10;
+}
+
+#hub-node h1 {
+    font-size: 28px;
+    letter-spacing: 4px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+.hub-info {
+    margin-bottom: 24px;
+}
+
+#date {
+    font-size: 14px;
+    opacity: 0.65;
+    margin-bottom: 6px;
+}
+
+#time {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.hub-status {
+    width: 70%;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 8px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    font-size: 13px;
+    opacity: 0.55;
+}
+
+.status-value {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* =========================
+   OUTER NODES
+========================= */
+
+#main-nodes {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+}
+
+.nav-node {
+    position: absolute;
+
+    width: 120px;
+    height: 56px;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.055),
+            rgba(255, 255, 255, 0.015)
+        );
+
+    color: white;
+
+    font-size: 14px;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 8px 18px rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(4px);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.nav-node::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+
+    border-radius: 11px;
+
+    border: 1px solid rgba(255, 255, 255, 0.035);
+
+    pointer-events: none;
+}
+
+.nav-node:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.085),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    border-color: rgba(255, 255, 255, 0.28);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 10px 24px rgba(0, 0, 0, 0.35),
+        0 0 16px rgba(255, 255, 255, 0.04);
+}
+
+/* Node positions */
+
+.nav-node[data-node="devices"] {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-node[data-node="system"] {
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-node[data-node="activity"] {
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* =========================
+   CONNECTIONS
+========================= */
+
+#connections {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 5;
+}
+
+.connection {
+    position: absolute;
+
+    background: rgba(255, 255, 255, 0.10);
+
+    box-shadow:
+        0 0 4px rgba(255, 255, 255, 0.06);
+
+    overflow: visible;
+}
+
+/* Devices -> Hub */
+
+.connection-devices {
+    width: 1px;
+    height: 42px;
+
+    left: 50%;
+    top: 66px;
+
+    transform: translateX(-50%);
+}
+
+/* System -> Hub */
+
+.connection-system {
+    width: 45px;
+    height: 1px;
+
+    left: 128px;
+    top: 50%;
+
+    transform: translateY(-50%);
+}
+
+/* Hub -> Activity */
+
+.connection-activity {
+    width: 45px;
+    height: 1px;
+
+    right: 128px;
+    top: 50%;
+
+    transform: translateY(-50%);
+}
+
+/* =========================
+   DATA PULSES
+========================= */
+
+.data-pulse {
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.85);
+
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.7),
+        0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+/* Vertical pulse */
+
+.connection-devices .data-pulse {
+    left: 50%;
+    top: 0;
+
+    transform: translateX(-50%);
+
+    animation: pulseVertical 3.5s linear infinite;
+}
+
+/* Horizontal pulses */
+
+.connection-system .data-pulse,
+.connection-activity .data-pulse {
+    top: 50%;
+    left: 0;
+
+    transform: translateY(-50%);
+
+    animation: pulseHorizontal 4s linear infinite;
+}
+
+.connection-system .data-pulse {
+    animation-delay: 0.8s;
+}
+
+.connection-activity .data-pulse {
+    animation-delay: 1.6s;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes pulseVertical {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    to {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes pulseHorizontal {
+    from {
+        left: 0;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    to {
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+/* =========================
+   SECONDARY SCREENS
+========================= */
+
+.screen {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: #07090d;
+
+    opacity: 1;
+    transform: scale(1);
+
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease;
+}
+
+.hidden {
+    opacity: 0;
+    transform: scale(1.08);
+    pointer-events: none;
+}
+
+/* Home transition */
+
+#home-screen {
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease;
+}
+
+#home-screen.screen-leaving {
+    opacity: 0;
+    transform: scale(1.15);
+    pointer-events: none;
+}
+
+/* =========================
+   DEVICES VIEW
+========================= */
+
+#devices-screen {
+    padding: 60px;
+}
+
+.section-header {
+    max-width: 700px;
+    margin: 40px auto 50px;
+    text-align: center;
+}
+
+.section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    opacity: 0.4;
+    margin-bottom: 10px;
+}
+
+.section-header h2 {
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.section-description {
+    font-size: 14px;
+    opacity: 0.55;
+}
+
+.back-button {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.025);
+    color: white;
+
+    padding: 10px 16px;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.device-grid {
+    width: min(900px, 90%);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(220px, 1fr)
+    );
+
+    gap: 20px;
+}
+
+.device-card {
+    min-height: 140px;
+
+    padding: 22px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.04),
+            rgba(255, 255, 255, 0.01)
+        );
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.device-card h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.device-card p {
+    font-size: 13px;
+    opacity: 0.5;
+}
+
+.device-status {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    margin-bottom: 16px;
+}
+
+.device-status.online {
+    background: rgba(255, 255, 255, 0.8);
+
+    box-shadow:
+        0 0 8px rgba(255, 255, 255, 0.45);
+}
