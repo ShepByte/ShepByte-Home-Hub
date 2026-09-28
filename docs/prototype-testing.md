@@ -45,9 +45,3 @@ The mobile interface currently requires responsive layout improvements.
 ### Next Milestone
 
 Replace the temporary development HTTP server with the Home Hub backend/API and begin providing live system data to the frontend.
-
-### Screenshot
-
-Home Hub V0.1 running from the Raspberry Pi and accessed over the local network.
-
-![Home Hub V0.1 running on Raspberry Pi](images/v0.1-first-pi-deployment.png)
