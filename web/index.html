@@ -1,6 +1,137 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ShepByte Home Hub</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
-<body><header><small>SHEPBYTE / LOCAL MONITORING</small><h1>Home Hub</h1><p>Independent devices. One trusted view.</p></header><main>
-<section id="login"><label>Hub administrator token <input id="token" type="password" autocomplete="off"></label><button id="connect">Unlock dashboard</button><p>Token stays in this page’s memory only. Reload to lock.</p></section>
-<p id="error" role="alert"></p><section id="workspace" hidden><div class="toolbar"><h2>Devices</h2><button id="invite">Create pairing invitation</button><button id="lock">Lock</button></div><p id="identity"></p><pre id="invitation" hidden></pre><div id="devices"></div><article id="detail" hidden><h2 id="device-title"></h2><nav aria-label="Device views"><button data-tab="overview">Overview</button><button data-tab="history">History</button><button data-tab="settings">Settings</button></nav><div id="content"></div></article></section>
-<footer>Protocol v1 · Read-only observations · <a href="/prototype/">Original node prototype</a></footer></main></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07090d">
+  <title>ShepByte Home Hub</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <section id="login" class="login-card">
+      <div class="brand-mark">⌂</div>
+      <div>
+        <small>SHEPBYTE</small>
+        <h1>Home Hub</h1>
+        <p>Independent devices. One trusted view.</p>
+      </div>
+      <label>Hub administrator token
+        <input id="token" type="password" autocomplete="off" placeholder="Enter token">
+      </label>
+      <button id="connect" class="primary">Enter Home Hub</button>
+      <p class="muted">Token stays in this page memory only. Reload to lock.</p>
+      <p id="error" role="alert"></p>
+    </section>
+
+    <section id="workspace" hidden>
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">⌂</div>
+          <div><small>SHEPBYTE</small><strong>Home Hub</strong><span>Your home. Connected.</span></div>
+        </div>
+        <div class="top-status">
+          <div><span class="weather-dot"></span><b id="environment-label">Local</b><small>Environment</small></div>
+          <div><span class="network-dot"></span><b>Home Network</b><small id="network-state">Online</small></div>
+          <div><b id="clock">--:--</b><small id="date">--</small></div>
+          <button id="lock" class="icon-button" aria-label="Lock Home Hub">⌁</button>
+        </div>
+      </header>
+
+      <main class="hub-main">
+        <section class="scene-wrap" aria-label="Home Hub node scene">
+          <svg class="branches" viewBox="0 0 1200 720" preserveAspectRatio="none" aria-hidden="true">
+            <path id="branch-devices" d="M600 360 C490 305 400 210 300 170"></path>
+            <path id="branch-system" d="M600 360 C470 390 360 420 245 455"></path>
+            <path id="branch-data" d="M600 360 C520 455 460 535 390 600"></path>
+            <path id="branch-updates" d="M600 360 C700 285 795 215 900 170"></path>
+            <path id="branch-errors" d="M600 360 C735 350 840 380 970 420"></path>
+            <path id="branch-settings" d="M600 360 C710 455 760 535 845 595"></path>
+          </svg>
+
+          <div class="data-orbs" aria-hidden="true">
+            <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i>
+            <i class="orb o4"></i><i class="orb o5"></i><i class="orb o6"></i>
+          </div>
+
+          <button class="node node-devices" data-node="devices">
+            <span class="island island-tech"><i></i><i></i><i></i></span>
+            <span class="node-label"><b>Devices</b><small id="devices-summary">0 Online</small></span>
+          </button>
+
+          <button class="node node-system" data-node="system">
+            <span class="island island-system"><i></i><i></i><i></i></span>
+            <span class="node-label"><b>System</b><small class="ok">Healthy</small></span>
+          </button>
+
+          <button class="node node-data" data-node="data">
+            <span class="island island-data"><i></i><i></i><i></i></span>
+            <span class="node-label"><b>Data</b><small>History</small></span>
+          </button>
+
+          <button class="node node-updates" data-node="updates">
+            <span class="island island-updates"><i></i><i></i><i></i></span>
+            <span class="node-label"><b>Updates</b><small>Ready</small></span>
+          </button>
+
+          <button class="node node-errors" data-node="errors">
+            <span class="island island-errors"><i></i><i></i><i></i></span>
+            <span class="node-label"><b>Errors</b><small id="errors-summary">0 Active</small></span>
+          </button>
+
+          <button class="node node-settings" data-node="settings">
+            <span class="island island-settings"><i></i><i></i><i></i></span>
+            <span class="node-label"><b>Settings</b><small>Configure</small></span>
+          </button>
+
+          <button class="node node-home active" data-node="home">
+            <span class="island island-home">
+              <span class="house"><i class="roof"></i><i class="body"></i><i class="window w1"></i><i class="window w2"></i></span>
+              <span class="tree t1"></span><span class="tree t2"></span><span class="tree t3"></span>
+            </span>
+            <span class="hub-label">
+              <b>Home Hub</b>
+              <small><span id="home-device-count">0/0</span><em>Devices</em><span id="home-error-count">0</span><em>Errors</em></small>
+            </span>
+          </button>
+
+          <div class="floor-reflection" aria-hidden="true"></div>
+          <div class="scene-hint">Drag / swipe to explore · Select a node to focus</div>
+        </section>
+
+        <aside id="panel" class="context-panel" hidden>
+          <div class="panel-head">
+            <div><small id="panel-kicker">HOME HUB</small><h2 id="panel-title">Devices</h2></div>
+            <button id="close-panel" class="icon-button" aria-label="Close panel">×</button>
+          </div>
+          <div id="panel-content"></div>
+        </aside>
+
+        <article id="detail" class="device-detail" hidden>
+          <button id="detail-back" class="back-button">← Devices</button>
+          <div class="detail-heading">
+            <div>
+              <small>DEVICE</small>
+              <h2 id="device-title"></h2>
+              <p id="device-status"></p>
+            </div>
+          </div>
+          <nav class="tabs" aria-label="Device views">
+            <button data-tab="overview">Overview</button>
+            <button data-tab="history">History</button>
+            <button data-tab="settings">Settings</button>
+          </nav>
+          <div id="content"></div>
+        </article>
+      </main>
+
+      <div id="pairing-bar" class="pairing-bar">
+        <button id="invite" class="primary">+ Pair device</button>
+        <pre id="invitation" hidden></pre>
+        <span id="identity"></span>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
