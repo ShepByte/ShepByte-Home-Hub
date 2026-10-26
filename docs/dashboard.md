@@ -1,3 +1,5 @@
+> Historical design notes. For the implemented v0.2 observation gateway, see [protocol v1](protocol-v1.md) and [setup](backend-setup.md). Commands, firmware updates and automatic discovery discussed below are not implemented.
+
 # Home Hub Dashboard Design
 
 ## Purpose
@@ -142,4 +144,5 @@ Softer lighting
 
 Night
 Darker environment
+
 

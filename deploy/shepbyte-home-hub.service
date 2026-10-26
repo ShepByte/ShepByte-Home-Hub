@@ -1,0 +1,23 @@
+[Unit]
+Description=ShepByte Home Hub observation gateway
+After=network.target
+
+[Service]
+Type=simple
+User=homehub
+Group=homehub
+WorkingDirectory=/opt/shepbyte-home-hub
+EnvironmentFile=/etc/shepbyte-home-hub/environment
+ExecStart=/usr/bin/python3 -m home_hub.server --host 0.0.0.0 --port 8765 --cert /etc/shepbyte-home-hub/hub-cert.pem --key /etc/shepbyte-home-hub/hub-key.pem --data /var/lib/shepbyte-home-hub
+Restart=on-failure
+RestartSec=5
+StateDirectory=shepbyte-home-hub
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
