@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+data/
+*-state.json
+*-state.tmp
+*.sqlite3*
+*.pem
+*.key
+.env

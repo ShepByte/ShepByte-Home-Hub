@@ -1,3 +1,5 @@
+> Historical design notes. For the implemented v0.2 observation gateway, see [protocol v1](protocol-v1.md) and [setup](backend-setup.md). Commands, firmware updates and automatic discovery discussed below are not implemented.
+
 #  ShepByte Home Hub - Backend & API
 
 ##  Status
@@ -100,3 +102,4 @@ reporting the result back to Home Hub.
 - Expandable
 - Hardware independent where practical
 - Simple device integration through the Agent protocol
+

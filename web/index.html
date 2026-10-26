@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ShepByte Home Hub</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><header><small>SHEPBYTE / LOCAL MONITORING</small><h1>Home Hub</h1><p>Independent devices. One trusted view.</p></header><main>
+<section id="login"><label>Hub administrator token <input id="token" type="password" autocomplete="off"></label><button id="connect">Unlock dashboard</button><p>Token stays in this page’s memory only. Reload to lock.</p></section>
+<p id="error" role="alert"></p><section id="workspace" hidden><div class="toolbar"><h2>Devices</h2><button id="invite">Create pairing invitation</button><button id="lock">Lock</button></div><p id="identity"></p><pre id="invitation" hidden></pre><div id="devices"></div><article id="detail" hidden><h2 id="device-title"></h2><nav aria-label="Device views"><button data-tab="overview">Overview</button><button data-tab="history">History</button><button data-tab="settings">Settings</button></nav><div id="content"></div></article></section>
+<footer>Protocol v1 · Read-only observations · <a href="/prototype/">Original node prototype</a></footer></main></body></html>
