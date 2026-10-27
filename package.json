@@ -1,0 +1,11 @@
+{
+  "name": "shepbyte-home-hub-dashboard",
+  "private": true,
+  "version": "0.2.0",
+  "description": "Development-only browser regression checks. No Node runtime is needed on the Pi.",
+  "scripts": {
+    "test:dashboard": "node tests/dashboard-browser.cjs",
+    "check": "node --check web/app.js && node --check prototype/js/app.js"
+  },
+  "devDependencies": {"playwright": "1.62.1"}
+}
