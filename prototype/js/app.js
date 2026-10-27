@@ -4,7 +4,7 @@ const panels={
   devices:[['Paired devices','Preview only'],['Live dashboard','Use the backend address']],
   system:[['Dashboard','V0.2'],['Mode','Visual prototype'],['Hub health','Not connected']],
   data:[['History','Available in live dashboard'],['Live readings','Never stored by this preview']],
-  updates:[['Dashboard','V0.2'],['Device versions','Available when connected']],
+  updates:[['Dashboard','V0.2'],['Update button','Open the authenticated backend dashboard'],['Device versions','Available when connected']],
   errors:[['Connection state','Not connected'],['Device issues','Available in live dashboard']],
   settings:[['Navigation','Swipe, drag or arrow keys'],['Zoom','Pinch or + / −'],['Environment','Ambient; umbrella toggles rain'],['Weather source','Decorative, not live weather']]
 };
