@@ -187,6 +187,15 @@ function renderDataPanel() {
 function renderUpdatesPanel() {
   const content = showPanel('Updates');
   content.replaceChildren();
+  content.append(button('Update Home Hub', async () => {
+    await api('admin/update', {});
+    watchUpdate();
+  }, 'primary'));
+  const progress = make('p', 'Updates this hub from the official main branch. Devices continue independently.');
+  progress.id = 'update-progress';
+  progress.setAttribute('role', 'status');
+  content.append(progress);
+  api('admin/update').then(s => { progress.textContent = s.message; }).catch(e => { progress.textContent = e.message; });
   content.append(nodeTitle('Update centre', 'Version awareness is available; remote deployment remains intentionally conservative.'));
   for (const d of devices.filter(d => d.status === 'approved')) {
     const row = make('div', undefined, 'panel-row');
@@ -541,3 +550,27 @@ setInterval(() => {
   window.addEventListener('blur',()=>{pointers.clear();gesture=null;viewport.classList.remove('dragging');});
   schedule();motion();
 })();
+
+let updateTimer = null;
+function watchUpdate() {
+  clearTimeout(updateTimer);
+  const poll = async () => {
+    try {
+      const state = await api('admin/update');
+      const progress = $('update-progress');
+      if (progress) progress.textContent = state.message;
+      if (state.status === 'restarting') {
+        updateTimer = setTimeout(() => location.reload(), 8000);
+      } else if (state.status === 'running') {
+        updateTimer = setTimeout(poll, 1500);
+      } else if (state.status === 'idle') {
+        location.reload();
+      }
+    } catch (error) {
+      const progress = $('update-progress');
+      if (progress) progress.textContent = 'Waiting for Home Hub to reconnect…';
+      updateTimer = setTimeout(poll, 3000);
+    }
+  };
+  poll();
+}

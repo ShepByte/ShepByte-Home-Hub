@@ -7,6 +7,7 @@ import ssl
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from .core import Hub, Error
+from .updater import Updater
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -66,6 +67,13 @@ class Handler(BaseHTTPRequestHandler):
                     raise Error(400,'Invalid JSON') from None
             auth = self.headers.get('Authorization','')
             bearer = auth[7:] if auth.startswith('Bearer ') else ''
+            if self.path == '/api/v1/admin/update':
+                # Reuse the existing administrator authentication boundary.
+                self.server.hub.request('GET', '/api/v1/admin/devices', None, bearer)
+                if self.command == 'POST' and body != {}:
+                    raise Error(400, 'Update accepts an empty JSON object only')
+                result = self.server.updater.start() if self.command == 'POST' else self.server.updater.status()
+                return self.respond(200, result)
             result = self.server.hub.request(self.command,self.path,body,bearer,self.headers.get('X-Hub-ID',''))
             self.respond(200,result)
         except Error as error:
@@ -92,6 +100,10 @@ def main():
         parser.error('Set HOME_HUB_ADMIN_TOKEN to a token generated with secrets.token_urlsafe(32)')
     server = ThreadingHTTPServer((args.host,args.port),Handler)
     server.hub = Hub(str(folder/'hub.sqlite3'),admin)
+    enabled = os.environ.get('HOME_HUB_ALLOW_UPDATE') == '1'
+    # Exit with failure so the existing systemd Restart=on-failure restarts us.
+    restart = (lambda: os._exit(1)) if os.environ.get('HOME_HUB_UPDATE_RESTART') == '1' else None
+    server.updater = Updater(ROOT, enabled, restart)
     if args.cert and args.key:
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         context.minimum_version = ssl.TLSVersion.TLSv1_2

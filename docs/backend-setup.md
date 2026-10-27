@@ -50,3 +50,21 @@ node --check web/app.js
 ```
 
 No real hardware/broker is required. Tests exercise the security/state contract and HTTP boundary. Protocol and sample requests: [protocol-v1.md](protocol-v1.md). Do not publish data folders, state files, invitations, certificates' private keys or admin tokens.
+
+## One-button hub updates
+
+The authenticated dashboard's Updates island now has **Update Home Hub**. It fetches only the official repository's `main`, refuses dirty worktrees and divergent history, and never forces a reset. Progress/errors appear in the panel. Device credentials and the database are not changed by the updater. Devices remain independent during the brief restart. This installs repository code, not operating-system packages or Python dependencies; failed application startup still requires manual recovery.
+
+One-time setup for the supplied systemd installation (adjust paths/user if your installation differs):
+
+```sh
+sudo chown -R homehub:homehub /opt/shepbyte-home-hub
+sudo mkdir -p /etc/systemd/system/shepbyte-home-hub.service.d
+sudo cp /opt/shepbyte-home-hub/deploy/updater.conf /etc/systemd/system/shepbyte-home-hub.service.d/updater.conf
+sudo systemctl daemon-reload
+sudo systemctl restart shepbyte-home-hub
+```
+
+Pull this update manually once before installing the drop-in. The service gains write access only to its own checkout in addition to its existing data directory. No sudo command is run from the browser. The service account needs Git installed and network access to GitHub. Keep the checkout on `main` with no local edits. The page reloads after restart; enter your existing admin token again.
+
+A `python3 -m http.server --directory prototype` server cannot perform updates: it serves static files only. Use the backend dashboard with its existing HTTPS/authentication setup. For a manually managed backend, `HOME_HUB_ALLOW_UPDATE=1` enables installation but leaves restart manual; set `HOME_HUB_UPDATE_RESTART=1` only under the restarting systemd service.
